@@ -22,8 +22,6 @@ services:
   app:
     build: ./app
     container_name: radiofm-app
-    ports:
-      - "80:80"
     volumes:
       - ./recordings:/recordings
     environment:
@@ -37,6 +35,17 @@ services:
     depends_on:
       - mongo
       - telegram-bot-api
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: radiofm-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
     restart: unless-stopped
 
 volumes:
