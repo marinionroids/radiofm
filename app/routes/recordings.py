@@ -51,7 +51,8 @@ async def download_recording(recording_id: str):
 
 @router.post("/{recording_id}/send-telegram")
 async def resend_telegram(recording_id: str):
-    recording = await get_recordings().find_one({"_id": ObjectId(recording_id)})
+    recordings_coll = get_recordings()
+    recording = await recordings_coll.find_one({"_id": ObjectId(recording_id)})
     if not recording:
         raise HTTPException(404, "Recording not found")
 
@@ -61,7 +62,13 @@ async def resend_telegram(recording_id: str):
 
     from telegram import send_audio
     await send_audio(filepath, recording.get("filename", "recording.mp3"), recording_id)
-    return {"ok": True}
+
+    updated = await recordings_coll.find_one({"_id": ObjectId(recording_id)})
+    return {
+        "ok": updated.get("telegram_status") == "sent",
+        "telegram_status": updated.get("telegram_status"),
+        "telegram_error": updated.get("telegram_error"),
+    }
 
 
 @router.get("/stats/summary")
