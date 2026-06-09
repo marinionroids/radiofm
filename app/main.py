@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
@@ -13,6 +12,8 @@ from routes.recordings import router as recordings_router
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     await init_db()
+    from telegram import logout_public_api
+    await logout_public_api()
     from scheduler import scheduler, load_schedules
     await load_schedules()
     scheduler.start()

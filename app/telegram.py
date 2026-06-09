@@ -12,6 +12,17 @@ def _api_url(path: str) -> str:
     return f"{settings.TELEGRAM_API_URL}/bot{settings.TELEGRAM_BOT_TOKEN}{path}"
 
 
+async def logout_public_api():
+    """Log bot out from api.telegram.org so the local server takes over."""
+    url = f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/logOut"
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(15.0)) as client:
+            r = await client.post(url)
+            print(f"[telegram] logOut from public API: status={r.status_code}, response={r.text[:100]}")
+    except Exception as e:
+        print(f"[telegram] logOut failed (may already be logged out): {e}")
+
+
 async def send_audio(filepath: str, filename: str, recording_id: str):
     recordings_coll = get_recordings()
 
