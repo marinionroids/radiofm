@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +7,66 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <header>
-        <h1>RadioFM</h1>
-        <nav id="nav-tabs">
-            <button class="tab active" data-tab="stations">Stations</button>
-            <button class="tab" data-tab="schedules">Schedules</button>
-            <button class="tab" data-tab="recordings">Recordings</button>
-        </nav>
-    </header>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <line x1="12" y1="2" x2="12" y2="6"/>
+                    <line x1="12" y1="18" x2="12" y2="22"/>
+                    <line x1="2" y1="12" x2="6" y2="12"/>
+                    <line x1="18" y1="12" x2="22" y2="12"/>
+                </svg>
+                <span class="brand-text">Radio<span class="brand-accent">FM</span></span>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Dashboard
+                </button>
+                <button class="nav-item" data-tab="stations">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19V5m-11 14V5M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+                    Stations
+                </button>
+                <button class="nav-item" data-tab="schedules">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Schedules
+                </button>
+                <button class="nav-item" data-tab="recordings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    Recordings
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="status-dot online"></div>
+                <span class="status-text">System Online</span>
+            </div>
+        </aside>
 
-    <main id="content"></main>
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="page-title" id="page-title">Dashboard</h2>
+                <div class="topbar-actions">
+                    <span class="clock" id="clock">--</span>
+                </div>
+            </header>
+
+            <div class="content-area" id="content"></div>
+        </main>
+    </div>
 
     <div id="toast-container"></div>
 
     <div id="modal-overlay" class="hidden">
-        <div id="modal">
-            <div id="modal-header">
-                <h2 id="modal-title"></h2>
-                <button id="modal-close" class="btn-icon">&times;</button>
+        <div class="modal-box">
+            <div class="modal-head">
+                <h3 id="modal-title"></h3>
+                <button class="modal-close" id="modal-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
-            <div id="modal-body"></div>
+            <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
 
