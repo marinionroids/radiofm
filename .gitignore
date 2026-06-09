@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+recordings/
+mongo_data/
+tg_api_data/
+.venv/
+*.egg-info/

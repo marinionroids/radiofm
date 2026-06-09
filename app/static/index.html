@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RadioFM</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>RadioFM</h1>
+        <nav id="nav-tabs">
+            <button class="tab active" data-tab="stations">Stations</button>
+            <button class="tab" data-tab="schedules">Schedules</button>
+            <button class="tab" data-tab="recordings">Recordings</button>
+        </nav>
+    </header>
+
+    <main id="content"></main>
+
+    <div id="toast-container"></div>
+
+    <div id="modal-overlay" class="hidden">
+        <div id="modal">
+            <div id="modal-header">
+                <h2 id="modal-title"></h2>
+                <button id="modal-close" class="btn-icon">&times;</button>
+            </div>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
