@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 
+from config import settings
 from db import get_stations, get_schedules
 from models import StationCreate, StationUpdate
 from scheduler import remove_job
@@ -23,7 +22,7 @@ async def list_stations():
 async def create_station(data: StationCreate):
     doc = data.model_dump()
     doc["enabled"] = True
-    doc["created_at"] = datetime.utcnow()
+    doc["created_at"] = settings.utc_now()
     result = await get_stations().insert_one(doc)
     doc["_id"] = str(result.inserted_id)
     return doc

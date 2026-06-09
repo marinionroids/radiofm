@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 
 import pytz
 from dotenv import load_dotenv
@@ -25,6 +26,16 @@ class Settings:
     TZ: str = _validate_tz(os.getenv("TZ", "UTC"))
     MAX_DURATION_MINUTES: int = 360
     MAX_CONCURRENT: int = 3
+
+    @property
+    def tz(self) -> timezone:
+        return pytz.timezone(self.TZ)
+
+    def local_now(self) -> datetime:
+        return datetime.now(self.tz)
+
+    def utc_now(self) -> datetime:
+        return datetime.now(timezone.utc)
 
 
 settings = Settings()

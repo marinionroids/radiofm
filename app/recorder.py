@@ -1,6 +1,5 @@
 import asyncio
 import os
-from datetime import datetime
 
 from bson import ObjectId
 
@@ -23,7 +22,7 @@ async def _do_record(schedule_id: str, station_id: str, duration_minutes: int):
     if not station or not station.get("enabled", False):
         return
 
-    now = datetime.utcnow()
+    now = settings.utc_now()
     safe_name = station["name"].replace(" ", "_").replace("/", "_")
     filename = f"{safe_name}_{now.strftime('%Y%m%d_%H%M%S')}.mp3"
     filepath = os.path.join(settings.RECORDINGS_DIR, filename)
@@ -73,7 +72,7 @@ async def _do_record(schedule_id: str, station_id: str, duration_minutes: int):
             error_msg = stderr.decode("utf-8", errors="replace")[-500:] if stderr else "Unknown ffmpeg error"
             await recordings_coll.update_one(
                 {"_id": ObjectId(recording_id)},
-                {"$set": {"status": "failed", "error_message": error_msg, "ended_at": datetime.utcnow()}},
+                {"$set": {"status": "failed", "error_message": error_msg, "ended_at": settings.utc_now()}},
             )
             return
 
@@ -86,7 +85,7 @@ async def _do_record(schedule_id: str, station_id: str, duration_minutes: int):
                 "status": "completed",
                 "size_bytes": file_size,
                 "duration_seconds": duration,
-                "ended_at": datetime.utcnow(),
+                "ended_at": settings.utc_now(),
             }},
         )
 
@@ -96,7 +95,7 @@ async def _do_record(schedule_id: str, station_id: str, duration_minutes: int):
     except Exception as e:
         await recordings_coll.update_one(
             {"_id": ObjectId(recording_id)},
-            {"$set": {"status": "failed", "error_message": str(e), "ended_at": datetime.utcnow()}},
+            {"$set": {"status": "failed", "error_message": str(e), "ended_at": settings.utc_now()}},
         )
 
 

@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 
+from config import settings
 from db import get_schedules, get_stations
 from models import ScheduleCreate, ScheduleUpdate
 from scheduler import add_job, remove_job
@@ -33,7 +32,7 @@ async def create_schedule(data: ScheduleCreate):
 
     doc = data.model_dump()
     doc["cron_expression"] = _cron_expr(data.minute, data.hour, data.day_of_week)
-    doc["created_at"] = datetime.utcnow()
+    doc["created_at"] = settings.utc_now()
 
     result = await get_schedules().insert_one(doc)
     schedule_id = str(result.inserted_id)

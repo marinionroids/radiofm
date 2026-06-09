@@ -1,6 +1,5 @@
 import httpx
 import os
-from datetime import datetime
 
 from bson import ObjectId
 
@@ -53,7 +52,7 @@ async def send_audio(filepath: str, filename: str, recording_id: str):
                 await recordings_coll.update_one(
                     {"_id": ObjectId(recording_id)},
                     {"$set": {
-                        "telegram_sent_at": datetime.utcnow(),
+                        "telegram_sent_at": settings.utc_now(),
                         "telegram_file_id": file_id,
                         "telegram_status": "sent",
                         "telegram_error": None,
